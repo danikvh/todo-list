@@ -1,5 +1,5 @@
-//Class of todo objects
-export default class Todo {
+//Class of task objects
+export default class Task {
     constructor(title, description, dueDate, priority) {
         this.title = title;
         this.description = description;
