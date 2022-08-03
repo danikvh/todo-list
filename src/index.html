@@ -12,6 +12,7 @@
     <div class="header">
         <p class="header-text">Todo List</p>
     </div>
+    
     <div class="sidebar">
         <div class="sidebar-1">
             <div class="sidebar-option">
@@ -43,15 +44,19 @@
             </div>
         </div>
     </div>
+
     <div class="main">
-        <p id="title">Title</p>
+        <div class="main-header">
+            <p id="title">Title</p>
             <button id="task-button">
                 <img src="<%=require('./assets/images/home.svg')%>" alt="inbox" width="20px" height="20px">
                 <p>Add Task</p>
             </button>
-            <div id="main-tasks">
-            </div>
+        </div>
+        <div id="main-tasks">
+        </div>
     </div>
+
     <div id="myModal" class="modal">
         <form class="form-container">
             <label for="title">Title</label>

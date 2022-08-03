@@ -37,7 +37,8 @@ module.exports = {
     new HtmlWebpackPlugin({
         title: 'Todo List',
         template: './src/index.html',
-        filename: './index.html' //relative to root of the application
+        filename: './index.html', //relative to root of the application
+        inject: false,
     })
 ]
 };

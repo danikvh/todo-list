@@ -16,6 +16,7 @@ export default class UI {
 
     static createTask(name, dueDate) {
         UI.showForm()
+        document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
 
         const submitButton = document.getElementById("submit-button")
         submitButton.addEventListener("click", UI.addTask)
@@ -28,14 +29,14 @@ export default class UI {
         const taskList = document.getElementById("main-tasks");
         taskList.innerHTML += `
         <button class="task">
-            <input type="checkbox">
-            <p>${title.value}</p>
-            <p>${date.value}</p>
+            <div class="task-left">
+                <input type="checkbox">
+                <p>${title.value}</p>
             </div>
+            <p class="date">${date.value}</p>
         </button>`
 
         UI.closeModal()
-
     }
 
     static createProject(name) {
