@@ -21,7 +21,8 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'assets/images/'
+              outputPath: 'assets/images/',
+              esModule: false,
             }
           }
         ]
@@ -29,12 +30,6 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
-      },
-      {
-        test:/\.html$/,
-        use: [
-          'html-loader'
-        ]
       },
     ],
   },
