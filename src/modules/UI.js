@@ -15,6 +15,13 @@ export default class UI {
     }
 
     static createTask(name, dueDate) {
+        UI.showForm()
+        const taskList = document.getElementById("main-tasks");
+        
+
+    }
+
+    static addTask(name, dueDate) {
         const taskList = document.getElementById("main-tasks");
         
 
@@ -28,7 +35,16 @@ export default class UI {
 
     }
 
+    static showForm() {
+        let modal = document.getElementById("myModal")
+        modal.style.display = "block"
+      }
 
+    static closeModal() {
+        let modal = document.getElementById("myModal")
+        modal.style.display = "none";
+        resetForm()
+      }
     
 
 }
