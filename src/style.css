@@ -1,0 +1,26 @@
+:root {
+    --color1: #93B5C6;
+    --color2: #C9CCD5;
+    --color3: #E4D8DC;
+    --color4: #FFE3E3;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+.header {
+    margin: 0;
+    padding: 0;
+    height: 40px;
+    background-color: var(--color1);
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-bottom: 18px;
+}

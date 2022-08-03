@@ -16,17 +16,30 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg)$/,
-        type: 'asset/resource'
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/images/'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
+      {
+        test:/\.html$/,
+        use: [
+          'html-loader'
+        ]
+      },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-        hash: true,
         title: 'Todo List',
         template: './src/index.html',
         filename: './index.html' //relative to root of the application
