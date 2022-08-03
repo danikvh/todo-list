@@ -1,0 +1,1 @@
+(()=>{"use strict";(class{static loadPage(){}static createHeader(){}}).loadPage()})();
