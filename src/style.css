@@ -11,16 +11,43 @@ body {
 }
 
 .header {
-    margin: 0;
-    padding: 0;
-    height: 40px;
+    height: 50px;
+    width: 100%;
     background-color: var(--color1);
+    display: flex;
+    align-items: center;
+}
+
+.header-text {
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.sidebar {
+    border-right: 1px solid rgba(71, 71, 71, 0.507);
+    width: 200px;
+}
+
+.sidebar-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-1 {
+
+}
+
+.sidebar-2 {
+
+}
+
+.project-title {
+    font-size: 30px;
+    font-weight: 700;
 }
 
 ul {
     list-style-type: none;
-}
-
-li {
-    margin-bottom: 18px;
 }
