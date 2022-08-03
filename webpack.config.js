@@ -1,10 +1,12 @@
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
@@ -21,5 +23,13 @@ module.exports = {
         type: 'asset/resource',
       },
     ],
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+        hash: true,
+        title: 'Todo List',
+        template: './src/index.html',
+        filename: './index.html' //relative to root of the application
+    })
+]
 };
