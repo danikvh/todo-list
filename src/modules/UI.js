@@ -1,4 +1,4 @@
-import Task from "./todo" 
+import Task from "./task" 
 
 export default class UI {
     static loadPage() {
@@ -16,14 +16,25 @@ export default class UI {
 
     static createTask(name, dueDate) {
         UI.showForm()
-        const taskList = document.getElementById("main-tasks");
-        
 
+        const submitButton = document.getElementById("submit-button")
+        submitButton.addEventListener("click", UI.addTask)
     }
 
-    static addTask(name, dueDate) {
+    static addTask() {
+        const title = document.querySelector("input[name$='title']")
+        const date = document.querySelector("input[name$='date']")
+
         const taskList = document.getElementById("main-tasks");
-        
+        taskList.innerHTML += `
+        <button class="task">
+            <input type="checkbox">
+            <p>${title.value}</p>
+            <p>${date.value}</p>
+            </div>
+        </button>`
+
+        UI.closeModal()
 
     }
 
@@ -43,7 +54,6 @@ export default class UI {
     static closeModal() {
         let modal = document.getElementById("myModal")
         modal.style.display = "none";
-        resetForm()
       }
     
 

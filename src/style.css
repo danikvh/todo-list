@@ -103,7 +103,19 @@ body {
     font-size: 30px;
 }
 
+#main-tasks {
+    margin-left: 30px;
+}
 
+.task {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Modal popup window to introduce info */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -119,16 +131,16 @@ body {
   
 .form-container {
     max-width: 300px;
+    width: 80%;
     padding: 10px;
     background-color: white;
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
 }
 
-.form-container input[type=text], .form-container input[type=password] {
+.form-container input {
     width: 90%;
     padding: 15px;
     margin: 5px 0 22px 0;
@@ -136,7 +148,7 @@ body {
     background: #f1f1f1;
 }
 
-.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+.form-container input:focus{
     background-color: #ddd;
     outline: none;
 }
@@ -144,6 +156,32 @@ body {
 .form-buttons {
     display: flex;
     margin-top: 20px;
+}
+
+.form-buttons button {
+    padding: 16px 20px;
+    background-color: #04AA6D;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    cursor: pointer;
+    width: 150px;
+    opacity: 0.8;
+}
+
+.form-buttons button:hover {
+    opacity: 1;
+}
+
+.form-buttons #cancel-button {
+    background-color: red;
+}
+
+.remove-button {
+    width: 120px;
+    margin-left: 10px;
+    background-color: red;
+    border-radius: 5px;
 }
 
 
