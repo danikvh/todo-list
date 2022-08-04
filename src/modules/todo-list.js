@@ -10,4 +10,16 @@ export default class TodoList {
         this.projects.push(new Project("Today"))
         this.projects.push(new Project("This week"))
     }
+
+    getProjects() {
+        return this.projects
+    }
+
+    getProject(name) {
+        return this.projects.find((project) => project.getName() === name)
+    }
+
+    setProjects(projects) {
+        this.projects = projects
+    }
 }

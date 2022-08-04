@@ -16,25 +16,25 @@
     <div class="sidebar">
         <div class="sidebar-1">
             <div class="sidebar-option">
-                <button class="sidebar-button" id="Inbox-project">
+                <button class="sidebar-button" id="inbox-project">
                     <img src="<%=require('./assets/images/home.svg')%>" alt="inbox" width="20px" height="20px">
                     <p>Inbox</p>
                 </button>
             </div>
-            <div class="sidebar-option">
+            <div class="sidebar-option" id="today-project">
                 <button class="sidebar-button">
                     <img src="<%=require('./assets/images/home.svg')%>" alt="today" width="20px" height="20px">
                     <p>Today</p>
                 </button>
             </div>
             <div class="sidebar-option">
-                <button class="sidebar-button">
+                <button class="sidebar-button" id="week-project">
                     <img src="<%=require('./assets/images/home.svg')%>" alt="this-week" width="20px" height="20px">
                     <p>This week</p>
                 </button>
             </div>
         </div>
-        <p class="project-title">Projects</p>
+        <p class="sidebar-text-big">Projects</p>
         <div class="sidebar-2">
             <div class="sidebar-option">
                 <button class="sidebar-button">
@@ -47,7 +47,7 @@
 
     <div class="main">
         <div class="main-header">
-            <p id="title">Title</p>
+            <p id="project-title">Title</p>
             <button id="task-button">
                 <img src="<%=require('./assets/images/home.svg')%>" alt="inbox" width="20px" height="20px">
                 <p>Add Task</p>

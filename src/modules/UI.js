@@ -1,21 +1,35 @@
 import Task from "./task" 
 import Project from "./project"
 import TodoList from "./todo-list"
+import Storage from "./storage"
 
 export default class UI {
     static loadPage() {
-        UI.initButtons()
         UI.loadProjects()
+        UI.initButtons()
         UI.openProject("Inbox-project")
-
-
     }
 
     //Initialization
     static initButtons() {
         const taskButton = document.getElementById("task-button");
+        const inboxProjectButton = document.getElementById("inbox-project");
+        const todayProjectButton = document.getElementById("today-project");
+        const weekProjectButton = document.getElementById("week-project");
 
         taskButton.addEventListener("click", UI.createTask);
+        inboxProjectButton.addEventListener("click", UI.openProject("Inbox"))
+        todayProjectButton.addEventListener("click", UI.openProject("Today"))
+        weekProjectButton.addEventListener("click", UI.openProject("This week"))
+    }
+
+    static loadProjects() {
+        Storage.getTodoList().getProjects().forEach((project) => {
+            if (project.name !== "Inbox" && project.name !== "Today" &&
+                project.name !== "This week") {
+                UI.createProject(project.name)
+            }
+        })
     }
 
 
@@ -31,6 +45,10 @@ export default class UI {
     static addTask() {
         const title = document.querySelector("input[name$='title']")
         const date = document.querySelector("input[name$='date']")
+        const projectName = document.getElementById("project-title")
+
+        Storage.addTask(projectName, new Task(title, date))
+        UI.closeModal()
 
         const taskList = document.getElementById("main-tasks");
         taskList.innerHTML += `
@@ -41,20 +59,15 @@ export default class UI {
             </div>
             <p class="date">${date.value}</p>
         </button>`
-
-        UI.closeModal()
     }
 
     static createProject(name) {
 
     }
 
-    static  openProject(name) {
 
-    }
+    static openProject(name) {
 
-    static loadProjects() {
-        
     }
 
     static showForm() {
