@@ -7,22 +7,10 @@ export default class UI {
     static loadPage() {
         UI.loadProjects()
         UI.initButtons()
-        UI.openProject("Inbox-project")
+        UI.openProject("Inbox")
     }
 
     //Initialization
-    static initButtons() {
-        const taskButton = document.getElementById("task-button");
-        const inboxProjectButton = document.getElementById("inbox-project");
-        const todayProjectButton = document.getElementById("today-project");
-        const weekProjectButton = document.getElementById("week-project");
-
-        taskButton.addEventListener("click", UI.createTask);
-        inboxProjectButton.addEventListener("click", UI.openProject("Inbox"))
-        todayProjectButton.addEventListener("click", UI.openProject("Today"))
-        weekProjectButton.addEventListener("click", UI.openProject("This week"))
-    }
-
     static loadProjects() {
         Storage.getTodoList().getProjects().forEach((project) => {
             if (project.name !== "Inbox" && project.name !== "Today" &&
@@ -30,6 +18,18 @@ export default class UI {
                 UI.createProject(project.name)
             }
         })
+    }
+
+    static initButtons() {
+        const taskButton = document.getElementById("task-button");
+        const inboxProjectButton = document.getElementById("inbox-project");
+        const todayProjectButton = document.getElementById("today-project");
+        const weekProjectButton = document.getElementById("week-project");
+
+        taskButton.addEventListener("click", UI.createTask);
+        inboxProjectButton.addEventListener("click", UI.openInboxProjects)
+        todayProjectButton.addEventListener("click", UI.openTodayProjects)
+        weekProjectButton.addEventListener("click", UI.openWeekProjects)
     }
 
 
@@ -45,7 +45,7 @@ export default class UI {
     static addTask() {
         const title = document.querySelector("input[name$='title']")
         const date = document.querySelector("input[name$='date']")
-        const projectName = document.getElementById("project-title")
+        const projectName = document.getElementById("project-title").textContent
 
         Storage.addTask(projectName, new Task(title, date))
         UI.closeModal()
@@ -65,10 +65,23 @@ export default class UI {
 
     }
 
-
     static openProject(name) {
-
+        const projectTitle = document.getElementById("project-title")
+        projectTitle.textContent = name
     }
+
+    static openInboxProjects() {
+        UI.openProject("Inbox")
+    }
+
+    static openTodayProjects() {
+        UI.openProject("Today")
+    }
+
+    static openWeekProjects() {
+        UI.openProject("This week")
+    }
+
 
     static showForm() {
         let modal = document.getElementById("myModal")
