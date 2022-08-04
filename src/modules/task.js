@@ -4,4 +4,8 @@ export default class Task {
         this.title = title;
         this.dueDate = dueDate;
     }
+
+    getName() {
+        return this.title;
+    }
 }

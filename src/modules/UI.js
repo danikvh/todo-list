@@ -1,4 +1,6 @@
 import Task from "./task" 
+import Project from "./project"
+import TodoList from "./todo-list"
 
 export default class UI {
     static loadPage() {
@@ -8,12 +10,18 @@ export default class UI {
 
     }
 
+    //Initialization
     static initButtons() {
         const taskButton = document.getElementById("task-button");
 
         taskButton.addEventListener("click", UI.createTask);
     }
 
+
+
+
+
+    //Creation of tasks and projects
     static createTask(name, dueDate) {
         UI.showForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
