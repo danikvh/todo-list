@@ -5,6 +5,7 @@ import TodoList from "./todo-list"
 export default class UI {
     static loadPage() {
         UI.initButtons()
+        UI.loadProjects()
         UI.openProject("Inbox-project")
 
 
@@ -16,9 +17,6 @@ export default class UI {
 
         taskButton.addEventListener("click", UI.createTask);
     }
-
-
-
 
 
     //Creation of tasks and projects
@@ -53,6 +51,10 @@ export default class UI {
 
     static  openProject(name) {
 
+    }
+
+    static loadProjects() {
+        
     }
 
     static showForm() {
