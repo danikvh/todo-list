@@ -24,14 +24,12 @@ export default class UI {
         const taskButton = document.getElementById("task-button");
         const inboxProjectButton = document.getElementById("inbox-project");
         const todayProjectButton = document.getElementById("today-project");
-        const weekProjectButton = document.getElementById("week-project");
-        const submitButton = document.getElementById("submit-button")
+        const weekProjectButton = document.getElementById("week-project");    
 
         taskButton.addEventListener("click", UI.createTask);
         inboxProjectButton.addEventListener("click", UI.openInboxProjects)
         todayProjectButton.addEventListener("click", UI.openTodayProjects)
         weekProjectButton.addEventListener("click", UI.openWeekProjects)
-        submitButton.addEventListener("click", UI.addTask)
     }
 
 
@@ -39,19 +37,29 @@ export default class UI {
     static createTask() {
         UI.showForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
+    
+        const submitButton = document.getElementById("submit-button")
+        submitButton.addEventListener("click", UI.addTask)
+    }
+
+    static initModifyTask(name, date) {
+        UI.showForm()
+        document.querySelector("input[name$='date']").value = date
+        document.querySelector("input[name$='title']").value = name
+
+        const submitButton = document.getElementById("submit-button")
+        submitButton.previousName = name
+        submitButton.addEventListener("click", UI.modifyTask)
     }
 
     static addTask(name, dueDate, finished) {
         if (dueDate === undefined) { // Values from popup
-            const title = document.querySelector("input[name$='title']")
-            const date = document.querySelector("input[name$='date']")
-            const projectName = document.getElementById("project-title").textContent
-            
-            name = title.value
-            dueDate = date.value
+            const projectName = document.getElementById("project-title").textContent 
+            name = document.querySelector("input[name$='title']").value
+            dueDate = document.querySelector("input[name$='date']").value
             finished = ""
 
-            Storage.addTask(projectName, new Task(name, dueDate, false))
+            Storage.addTask(projectName, new Task(name, dueDate, false)) //New task
             UI.closeModal() 
         }
 
@@ -65,11 +73,17 @@ export default class UI {
             <p class="date">${dueDate}</p>
         </button>`
 
-        const checkBoxes = document.getElementsByName("check-finish")
-        checkBoxes.forEach((checkBox) => checkBox.addEventListener("click", (event) => {
-            const project = document.getElementById("project-title").textContent
-            Storage.updateCheckedTask(project, event.target.alt, event.target.checked)
-        }))
+        UI.initTaskButtons()
+    }
+
+    static modifyTask(event) {
+        const projectName = document.getElementById("project-title").textContent 
+        const name = document.querySelector("input[name$='title']").value
+        const dueDate = document.querySelector("input[name$='date']").value
+        
+        Storage.updateInfoTask(projectName, event.target.previousName, name, dueDate)
+        UI.closeModal()
+        UI.openProject(projectName)
     }
 
     static createProject(name) {
@@ -97,6 +111,22 @@ export default class UI {
 
     static openWeekProjects() {
         UI.openProject("This week")
+    }
+
+    static initTaskButtons() {
+        const checkBoxes = document.getElementsByName("check-finish")
+        const taskButtons = document.querySelectorAll(".task")
+
+        checkBoxes.forEach((checkBox) => checkBox.addEventListener("click", (event) => {
+            const project = document.getElementById("project-title").textContent
+            Storage.updateCheckedTask(project, event.target.alt, event.target.checked)
+        }))
+
+        taskButtons.forEach((button) => button.addEventListener("click", (event) => {
+            const name = event.target.firstElementChild.lastElementChild.textContent
+            const date = event.target.lastElementChild.textContent
+            UI.initModifyTask(name, date)
+        }))
     }
 
 

@@ -102,11 +102,11 @@ body {
     font-weight: 700;
 }
 
-#task-button:hover {
+#task-button:hover, .task:hover {
     background-color: hsl(340, 18%, 77%);
 }
 
-#task-button:active {
+#task-button:active, .task:active {
     background-color: hsl(340, 18%, 67%);
 }
 

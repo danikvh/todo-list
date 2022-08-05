@@ -36,4 +36,12 @@ export default class Storage {
         checked === true ? task.setFinished(true) : task.setFinished(false)
         Storage.saveTodoList(todoList) 
     }
+
+    static updateInfoTask(projectName, previousName, name, date) {
+        const todoList = Storage.getTodoList()
+        const task = todoList.getProject(projectName).getTask(previousName)
+        task.setName(name)
+        task.setDate(date)
+        Storage.saveTodoList(todoList) 
+    }
 }
