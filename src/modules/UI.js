@@ -24,12 +24,14 @@ export default class UI {
         const taskButton = document.getElementById("task-button");
         const inboxProjectButton = document.getElementById("inbox-project");
         const todayProjectButton = document.getElementById("today-project");
-        const weekProjectButton = document.getElementById("week-project");    
+        const weekProjectButton = document.getElementById("week-project"); 
+        const cancelPopupButton = document.getElementById("cancel-button") 
 
         taskButton.addEventListener("click", UI.createTask);
         inboxProjectButton.addEventListener("click", UI.openInboxProjects)
         todayProjectButton.addEventListener("click", UI.openTodayProjects)
         weekProjectButton.addEventListener("click", UI.openWeekProjects)
+        cancelPopupButton.addEventListener("click", UI.closeModal)
     }
 
 
@@ -138,6 +140,7 @@ export default class UI {
     static closeModal() {
         let modal = document.getElementById("myModal")
         modal.style.display = "none";
+        document.querySelector("input[name$='title']").value = ""
       }
     
 
