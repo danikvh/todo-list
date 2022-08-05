@@ -25,11 +25,13 @@ export default class UI {
         const inboxProjectButton = document.getElementById("inbox-project");
         const todayProjectButton = document.getElementById("today-project");
         const weekProjectButton = document.getElementById("week-project");
+        const submitButton = document.getElementById("submit-button")
 
         taskButton.addEventListener("click", UI.createTask);
         inboxProjectButton.addEventListener("click", UI.openInboxProjects)
         todayProjectButton.addEventListener("click", UI.openTodayProjects)
         weekProjectButton.addEventListener("click", UI.openWeekProjects)
+        submitButton.addEventListener("click", UI.addTask)
     }
 
 
@@ -37,9 +39,6 @@ export default class UI {
     static createTask() {
         UI.showForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
-
-        const submitButton = document.getElementById("submit-button")
-        submitButton.addEventListener("click", UI.addTask)
     }
 
     static addTask(name, dueDate) {
@@ -50,7 +49,7 @@ export default class UI {
             name = title.value
             dueDate = date.value
 
-            Storage.addTask(projectName, new Task(title, date))
+            Storage.addTask(projectName, new Task(name, dueDate))
             UI.closeModal() 
         }
         const taskList = document.getElementById("main-tasks");
