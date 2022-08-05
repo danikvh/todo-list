@@ -8,4 +8,8 @@ export default class Task {
     getName() {
         return this.title;
     }
+
+    getDate() {
+        return this.dueDate
+    }
 }

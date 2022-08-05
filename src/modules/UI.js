@@ -34,7 +34,7 @@ export default class UI {
 
 
     //Creation of tasks and projects
-    static createTask(name, dueDate) {
+    static createTask() {
         UI.showForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
 
@@ -42,22 +42,25 @@ export default class UI {
         submitButton.addEventListener("click", UI.addTask)
     }
 
-    static addTask() {
-        const title = document.querySelector("input[name$='title']")
-        const date = document.querySelector("input[name$='date']")
-        const projectName = document.getElementById("project-title").textContent
+    static addTask(name, dueDate) {
+        if (dueDate === undefined) { // Values from popup
+            const title = document.querySelector("input[name$='title']")
+            const date = document.querySelector("input[name$='date']")
+            const projectName = document.getElementById("project-title").textContent
+            name = title.value
+            dueDate = date.value
 
-        Storage.addTask(projectName, new Task(title, date))
-        UI.closeModal()
-
+            Storage.addTask(projectName, new Task(title, date))
+            UI.closeModal() 
+        }
         const taskList = document.getElementById("main-tasks");
         taskList.innerHTML += `
         <button class="task">
             <div class="task-left">
                 <input type="checkbox">
-                <p>${title.value}</p>
+                <p>${name}</p>
             </div>
-            <p class="date">${date.value}</p>
+            <p class="date">${dueDate}</p>
         </button>`
     }
 
@@ -68,6 +71,12 @@ export default class UI {
     static openProject(name) {
         const projectTitle = document.getElementById("project-title")
         projectTitle.textContent = name
+
+        //load Tasks
+        const taskList = document.getElementById("main-tasks")
+        taskList.innerHTML = ""
+        const tasks = Storage.getTodoList().getProject(name).getTasks()
+        tasks.forEach((task) => UI.addTask(task.getName(), task.getDate()))
     }
 
     static openInboxProjects() {
