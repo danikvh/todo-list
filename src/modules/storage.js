@@ -28,6 +28,12 @@ export default class Storage {
         console.log(todoList)
         todoList.getProject(projectName).addTask(task)
         Storage.saveTodoList(todoList)
-        console.log(todoList)
+    }
+
+    static updateCheckedTask(projectName, name, checked) {
+        const todoList = Storage.getTodoList()
+        const task = todoList.getProject(projectName).getTask(name)
+        checked === true ? task.setFinished(true) : task.setFinished(false)
+        Storage.saveTodoList(todoList) 
     }
 }

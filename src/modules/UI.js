@@ -41,26 +41,35 @@ export default class UI {
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
     }
 
-    static addTask(name, dueDate) {
+    static addTask(name, dueDate, finished) {
         if (dueDate === undefined) { // Values from popup
             const title = document.querySelector("input[name$='title']")
             const date = document.querySelector("input[name$='date']")
             const projectName = document.getElementById("project-title").textContent
+            
             name = title.value
             dueDate = date.value
+            finished = ""
 
-            Storage.addTask(projectName, new Task(name, dueDate))
+            Storage.addTask(projectName, new Task(name, dueDate, false))
             UI.closeModal() 
         }
+
         const taskList = document.getElementById("main-tasks");
         taskList.innerHTML += `
         <button class="task">
             <div class="task-left">
-                <input type="checkbox">
+                <input type="checkbox" alt="${name}" name="check-finish" ${finished}>
                 <p>${name}</p>
             </div>
             <p class="date">${dueDate}</p>
         </button>`
+
+        const checkBoxes = document.getElementsByName("check-finish")
+        checkBoxes.forEach((checkBox) => checkBox.addEventListener("click", (event) => {
+            const project = document.getElementById("project-title").textContent
+            Storage.updateCheckedTask(project, event.target.alt, event.target.checked)
+        }))
     }
 
     static createProject(name) {
@@ -75,7 +84,7 @@ export default class UI {
         const taskList = document.getElementById("main-tasks")
         taskList.innerHTML = ""
         const tasks = Storage.getTodoList().getProject(name).getTasks()
-        tasks.forEach((task) => UI.addTask(task.getName(), task.getDate()))
+        tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
     }
 
     static openInboxProjects() {
