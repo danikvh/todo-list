@@ -10,7 +10,8 @@ export default class UI {
         UI.openProject("Inbox")
     }
 
-    //Initialization
+    //INITIALIZATION
+
     static loadProjects() {
         Storage.getTodoList().getProjects().forEach((project) => {
             if (project.name !== "Inbox" && project.name !== "Today" &&
@@ -35,7 +36,8 @@ export default class UI {
     }
 
 
-    //Creation of tasks and projects
+    //CREATION OF TASKS AND PROJECTS
+
     static createTask() {
         UI.showForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
@@ -125,18 +127,20 @@ export default class UI {
         }))
 
         taskButtons.forEach((button) => button.addEventListener("click", (event) => {
-            //If date or title are selected, go up the button element
-            if (event.target.className === "date") {
-                event.target = event.target.parentElement
+            console.log(event.target)
+            let selected = event.target
+            //If elements in the button are selected, go up the button element
+            if (event.target.className === "date" || event.target.className === "task-left" ) {
+                selected = event.target.parentElement
             }
             if (event.target.className === "task-title") {
-                event.target = event.target.parentElement.parentElement
+                selected = event.target.parentElement.parentElement
             }
 
             //If the checkbox is pressed, don't run
-            if (event.target.lastElementChild !== null) { 
-                const name = event.target.firstElementChild.lastElementChild.textContent
-                const date = event.target.lastElementChild.textContent
+            if (selected.lastElementChild !== null) { 
+                const name = selected.firstElementChild.lastElementChild.textContent
+                const date = selected.lastElementChild.textContent
                 UI.initModifyTask(name, date)
             }
         }))
