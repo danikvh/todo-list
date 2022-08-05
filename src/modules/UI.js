@@ -70,7 +70,7 @@ export default class UI {
         <button class="task">
             <div class="task-left">
                 <input type="checkbox" alt="${name}" name="check-finish" ${finished}>
-                <p>${name}</p>
+                <p class="task-title">${name}</p>
             </div>
             <p class="date">${dueDate}</p>
         </button>`
@@ -125,9 +125,20 @@ export default class UI {
         }))
 
         taskButtons.forEach((button) => button.addEventListener("click", (event) => {
-            const name = event.target.firstElementChild.lastElementChild.textContent
-            const date = event.target.lastElementChild.textContent
-            UI.initModifyTask(name, date)
+            //If date or title are selected, go up the button element
+            if (event.target.className === "date") {
+                event.target = event.target.parentElement
+            }
+            if (event.target.className === "task-title") {
+                event.target = event.target.parentElement.parentElement
+            }
+
+            //If the checkbox is pressed, don't run
+            if (event.target.lastElementChild !== null) { 
+                const name = event.target.firstElementChild.lastElementChild.textContent
+                const date = event.target.lastElementChild.textContent
+                UI.initModifyTask(name, date)
+            }
         }))
     }
 
