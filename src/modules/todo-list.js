@@ -22,4 +22,8 @@ export default class TodoList {
     setProjects(projects) {
         this.projects = projects
     }
+
+    addProject(projectName) {
+        this.projects.push(new Project(projectName))
+    }
 }

@@ -14,29 +14,33 @@ export default class UI {
 
     static loadProjects() {
         Storage.getTodoList().getProjects().forEach((project) => {
-            if (project.name !== "Inbox" && project.name !== "Today" &&
-                project.name !== "This week") {
-                UI.createProject(project.name)
+            if (project.getName() !== "Inbox" && project.getName() !== "Today" &&
+                project.getName() !== "This week") {
+                UI.addProject(project.getName())
             }
         })
     }
 
     static initButtons() {
         const taskButton = document.getElementById("task-button");
+        const projectButton = document.getElementById("project-create")
         const inboxProjectButton = document.getElementById("inbox-project");
         const todayProjectButton = document.getElementById("today-project");
         const weekProjectButton = document.getElementById("week-project"); 
-        const cancelPopupButton = document.getElementById("cancel-button") 
+        const cancelTaskPopupButton = document.getElementById("cancel-task")
+        const cancelProjectPopupButton = document.getElementById("cancel-project")
 
         taskButton.addEventListener("click", UI.createTask);
+        projectButton.addEventListener("click", UI.createProject)
         inboxProjectButton.addEventListener("click", UI.openInboxProjects)
         todayProjectButton.addEventListener("click", UI.openTodayProjects)
         weekProjectButton.addEventListener("click", UI.openWeekProjects)
-        cancelPopupButton.addEventListener("click", UI.closeTaskModal)
+        cancelTaskPopupButton.addEventListener("click", UI.closeTaskModal)
+        cancelProjectPopupButton.addEventListener("click", UI.closeProjectModal)
     }
 
 
-    //CREATION OF TASKS AND PROJECTS
+    //CREATION OF TASKS
 
     static createTask() {
         UI.showTaskForm()
@@ -90,36 +94,6 @@ export default class UI {
         UI.openProject(projectName)
     }
 
-    static createProject() {
-        UI.showProjectForm()
-    
-        const submitButton = document.getElementById("submit-project")
-        submitButton.addEventListener("click", UI.addProject)
-    }
-
-    static openProject(name) {
-        const projectTitle = document.getElementById("project-title")
-        projectTitle.textContent = name
-
-        //load Tasks
-        const taskList = document.getElementById("main-tasks")
-        taskList.innerHTML = ""
-        const tasks = Storage.getTodoList().getProject(name).getTasks()
-        tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
-    }
-
-    static openInboxProjects() {
-        UI.openProject("Inbox")
-    }
-
-    static openTodayProjects() {
-        UI.openProject("Today")
-    }
-
-    static openWeekProjects() {
-        UI.openProject("This week")
-    }
-
     static initTaskButtons() {
         const checkBoxes = document.getElementsByName("check-finish")
         const taskButtons = document.querySelectorAll(".task")
@@ -147,6 +121,56 @@ export default class UI {
                 UI.initModifyTask(name, date)
             }
         }))
+    }
+
+    //CREATION OF PROJECTS
+
+    static createProject() {
+        UI.showProjectForm()
+    
+        const submitButton = document.getElementById("submit-project")
+        submitButton.addEventListener("click", UI.addProject)
+    }
+
+    static addProject(name) {
+        if (name === undefined || name === "") { // Values from popup
+            const name = document.querySelector("input[name$='proj-title']").value
+
+            Storage.addProject(name)
+            UI.closeProjectModal() 
+        }
+
+        const projectList = document.getElementById("sidebar-projects");
+        projectList.innerHTML += `
+        <div class="sidebar-option" id="${name}-project">
+            <button class="sidebar-button">
+                <img src="<%=require('./assets/images/home.svg')%>" alt="${name}" width="20px" height="20px">
+                <p>${name}</p>
+            </button>
+        </div>`
+    }
+
+    static openProject(name) {
+        const projectTitle = document.getElementById("project-title")
+        projectTitle.textContent = name
+
+        //load Tasks
+        const taskList = document.getElementById("main-tasks")
+        taskList.innerHTML = ""
+        const tasks = Storage.getTodoList().getProject(name).getTasks()
+        tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
+    }
+
+    static openInboxProjects() {
+        UI.openProject("Inbox")
+    }
+
+    static openTodayProjects() {
+        UI.openProject("Today")
+    }
+
+    static openWeekProjects() {
+        UI.openProject("This week")
     }
 
     // POP UP METHODS

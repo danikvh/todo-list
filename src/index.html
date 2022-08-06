@@ -35,9 +35,9 @@
             </div>
         </div>
         <p class="sidebar-text-big">Projects</p>
-        <div class="sidebar-2">
+        <div class="sidebar-2" id="sidebar-projects">
             <div class="sidebar-option">
-                <button class="sidebar-button">
+                <button class="sidebar-button" id="project-create">
                     <img src="<%=require('./assets/images/home.svg')%>" alt="inbox" width="20px" height="20px">
                     <p>Add Project</p>
                 </button>
@@ -64,18 +64,17 @@
             <label for="date">Date</label>
             <input type="date" name="date" required>
             <div class="form-buttons">
-                <button type="button" id="cancel-button">Cancel</button>
+                <button type="button" class="cancel-button" id="cancel-task">Cancel</button>
                 <button type="button" id="submit-task">Add task</button>
             </div>
         </form>
     </div>
-
     <div id="projectModal" class="modal">
         <form class="form-container">
-            <label for="title">Title</label>
-            <input type="text" placeholder="Enter title" name="title" required>
+            <label for="proj-title">Title</label>
+            <input type="text" placeholder="Enter title" name="proj-title" required>
             <div class="form-buttons">
-                <button type="button" id="cancel-button">Cancel</button>
+                <button type="button" class="cancel-button" id="cancel-project">Cancel</button>
                 <button type="button" id="submit-project">Add project</button>
             </div>
         </form>
