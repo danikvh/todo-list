@@ -32,26 +32,26 @@ export default class UI {
         inboxProjectButton.addEventListener("click", UI.openInboxProjects)
         todayProjectButton.addEventListener("click", UI.openTodayProjects)
         weekProjectButton.addEventListener("click", UI.openWeekProjects)
-        cancelPopupButton.addEventListener("click", UI.closeModal)
+        cancelPopupButton.addEventListener("click", UI.closeTaskModal)
     }
 
 
     //CREATION OF TASKS AND PROJECTS
 
     static createTask() {
-        UI.showForm()
+        UI.showTaskForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
     
-        const submitButton = document.getElementById("submit-button")
+        const submitButton = document.getElementById("submit-task")
         submitButton.addEventListener("click", UI.addTask)
     }
 
     static initModifyTask(name, date) {
-        UI.showForm()
+        UI.showTaskForm()
         document.querySelector("input[name$='date']").value = date
         document.querySelector("input[name$='title']").value = name
 
-        const submitButton = document.getElementById("submit-button")
+        const submitButton = document.getElementById("submit-task")
         submitButton.previousName = name
         submitButton.addEventListener("click", UI.modifyTask)
     }
@@ -64,7 +64,7 @@ export default class UI {
             finished = ""
 
             Storage.addTask(projectName, new Task(name, dueDate, false)) //New task
-            UI.closeModal() 
+            UI.closeTaskModal() 
         }
 
         const taskList = document.getElementById("main-tasks");
@@ -86,12 +86,15 @@ export default class UI {
         const dueDate = document.querySelector("input[name$='date']").value
         
         Storage.updateInfoTask(projectName, event.target.previousName, name, dueDate)
-        UI.closeModal()
+        UI.closeTaskModal()
         UI.openProject(projectName)
     }
 
-    static createProject(name) {
-
+    static createProject() {
+        UI.showProjectForm()
+    
+        const submitButton = document.getElementById("submit-project")
+        submitButton.addEventListener("click", UI.addProject)
     }
 
     static openProject(name) {
@@ -146,17 +149,27 @@ export default class UI {
         }))
     }
 
+    // POP UP METHODS
 
-    static showForm() {
-        let modal = document.getElementById("myModal")
+    static showTaskForm() {
+        let modal = document.getElementById("taskModal")
         modal.style.display = "block"
-      }
+    }
 
-    static closeModal() {
-        let modal = document.getElementById("myModal")
+    static closeTaskModal() {
+        let modal = document.getElementById("taskModal")
         modal.style.display = "none";
         document.querySelector("input[name$='title']").value = ""
-      }
-    
+    }
 
+    static showProjectForm() {
+        let modal = document.getElementById("projectModal")
+        modal.style.display = "block"
+    }
+
+    static closeProjectModal() {
+        let modal = document.getElementById("projectModal")
+        modal.style.display = "none";
+        document.querySelector("input[name$='title']").value = ""
+    }
 }
