@@ -144,7 +144,7 @@ export default class UI {
         projectList.innerHTML += `
         <div class="sidebar-option" id="${name}-project">
             <button class="sidebar-button">
-                <img src='./assets/images/home.svg' alt="${name}" width="20px" height="20px">
+                <img src='./assets/images/dot.svg' alt="${name}" width="10px" height="10px">
                 <p>${name}</p>
             </button>
         </div>`
