@@ -133,10 +133,10 @@ export default class UI {
     }
 
     static addProject(name) {
-        if (name === undefined || name === "") { // Values from popup
-            const name = document.querySelector("input[name$='proj-title']").value
-
-            Storage.addProject(name)
+        const nameInput = document.querySelector("input[name$='proj-title']").value
+        if (nameInput !== "") { // Values from popup
+            name = nameInput
+            Storage.addProject(nameInput)
             UI.closeProjectModal() 
         }
 
