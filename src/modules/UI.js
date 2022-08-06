@@ -32,9 +32,9 @@ export default class UI {
 
         taskButton.addEventListener("click", UI.createTask);
         projectButton.addEventListener("click", UI.createProject)
-        inboxProjectButton.addEventListener("click", UI.openInboxProjects)
-        todayProjectButton.addEventListener("click", UI.openTodayProjects)
-        weekProjectButton.addEventListener("click", UI.openWeekProjects)
+        inboxProjectButton.addEventListener("click", UI.openProject)
+        todayProjectButton.addEventListener("click", UI.openProject)
+        weekProjectButton.addEventListener("click", UI.openProject)
         cancelTaskPopupButton.addEventListener("click", UI.closeTaskModal)
         cancelProjectPopupButton.addEventListener("click", UI.closeProjectModal)
     }
@@ -104,7 +104,6 @@ export default class UI {
         }))
 
         taskButtons.forEach((button) => button.addEventListener("click", (event) => {
-            console.log(event.target)
             let selected = event.target
             //If elements in the button are selected, go up the button element
             if (event.target.className === "date" || event.target.className === "task-left" ) {
@@ -143,14 +142,25 @@ export default class UI {
         const projectList = document.getElementById("sidebar-projects");
         projectList.innerHTML += `
         <div class="sidebar-option" id="${name}-project">
-            <button class="sidebar-button">
+            <button class="sidebar-button" id="project" name="${name}">
                 <img src='./assets/images/dot.svg' alt="${name}" width="10px" height="10px">
                 <p>${name}</p>
             </button>
         </div>`
+
+        UI.initProjectButtons()
     }
 
     static openProject(name) {
+        //Handle button selection        
+        if (typeof name !== "string") {
+            if (name.target.childNodes.length <= 1){ //Pressed icon or text
+                name = name.target.parentElement.name
+            } else { //Pressed button
+                name = name.target.name
+            }
+        }
+
         const projectTitle = document.getElementById("project-title")
         projectTitle.textContent = name
 
@@ -161,16 +171,9 @@ export default class UI {
         tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
     }
 
-    static openInboxProjects() {
-        UI.openProject("Inbox")
-    }
-
-    static openTodayProjects() {
-        UI.openProject("Today")
-    }
-
-    static openWeekProjects() {
-        UI.openProject("This week")
+    static initProjectButtons() {
+        const projectButtons = document.querySelectorAll("#project")
+        projectButtons.forEach((button) => button.addEventListener("click", UI.openProject))
     }
 
     // POP UP METHODS
