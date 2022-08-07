@@ -98,7 +98,7 @@ body {
     flex-direction: column;
 }
 
-.sidebar-2 {
+.sidebar-2, .sidebar-project-create {
     padding-left: 20px;
     display: flex;
     flex-direction: column;

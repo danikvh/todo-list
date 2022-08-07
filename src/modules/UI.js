@@ -12,15 +12,6 @@ export default class UI {
 
     //INITIALIZATION
 
-    static loadProjects() {
-        Storage.getTodoList().getProjects().forEach((project) => {
-            if (project.getName() !== "Inbox" && project.getName() !== "Today" &&
-                project.getName() !== "This week") {
-                UI.addProject(project.getName())
-            }
-        })
-    }
-
     static initButtons() {
         const taskButton = document.getElementById("task-button");
         const projectButton = document.getElementById("project-create")
@@ -200,6 +191,19 @@ export default class UI {
         console.log(projectName)
 
         Storage.deleteProject(projectName)
+        UI.loadProjects()
+    }
+
+    static loadProjects() {
+        const projectList = document.getElementById("sidebar-projects");
+        projectList.innerHTML = ""
+
+        Storage.getTodoList().getProjects().forEach((project) => {
+            if (project.getName() !== "Inbox" && project.getName() !== "Today" &&
+                project.getName() !== "This week") {
+                UI.addProject(project.getName())
+            }
+        })
     }
 
     static initProjectButtons() {
