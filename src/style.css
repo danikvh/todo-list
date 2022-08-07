@@ -1,7 +1,14 @@
 @font-face {
     font-family: 'Roboto';
     src: url('./assets/fonts/Roboto.ttf');
-    font-weight: 600;
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./assets/fonts/Roboto-Bold.ttf');
+    font-weight: bold;
     font-style: normal;
 }
 
@@ -19,8 +26,11 @@ body {
     grid-template-columns: 200px auto;
 }
 
+
+/* HEADER */
+
 .header {
-    height: 50px;
+    height: 60px;
     width: 100%;
     background-color: var(--color1);
     display: flex;
@@ -29,11 +39,15 @@ body {
 }
 
 .header-text {
-    margin-left: 20px;
+    margin-left: 25px;
     font-size: 30px;
-    font-weight: 700;
+    font-weight: bold;
+    font-family: "Roboto";
     color: white;
 }
+
+
+/* SIDEBAR */
 
 .sidebar {
     border-right: 1px solid rgba(71, 71, 71, 0.507);
@@ -41,6 +55,7 @@ body {
     height: 100vh;
     background-color: hsl(225, 13%, 81%);
     grid-column: 1 / 2;
+    font-family: "Roboto";
 }
 
 .sidebar-option {
@@ -92,7 +107,7 @@ body {
 }
 
 
-/* Main window */
+/* MAIN WINDOW */
 
 .main {
     width: 100%;
@@ -103,23 +118,25 @@ body {
     padding-left: 40px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
 }
 
 #project-title {
+    font-family: "Roboto";
     font-size: 34px;
     font-weight: 800;
 }
 
 #task-button{
-    margin-left: 50px;
+    margin-left: 40px;
     width: 150px;
-    height:50px;
+    height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     background-color: white;
     border: 1px solid transparent;
+    font-family: "Roboto";
     font-size: 18px;
     font-weight: 700;
 }
