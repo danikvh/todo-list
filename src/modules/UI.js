@@ -145,7 +145,7 @@ export default class UI {
 
     //CREATION OF PROJECTS
 
-    static createProject() {
+    static createProject(event) {
         UI.showProjectForm()
     
         const submitButton = document.getElementById("submit-project")
@@ -160,12 +160,12 @@ export default class UI {
                 return
             }
             name = nameInput
-            Storage.addProject(nameInput)
+            Storage.addProject(name)
             UI.closeProjectModal() 
         }
-
+        
         const projectList = document.getElementById("sidebar-projects");
-        projectList.innerHTML += `
+        projectList.insertAdjacentHTML("beforeend", `
         <div class="sidebar-project" id="${name}-project">
             <button class="sidebar-button" id="project" name="${name}">
                 <img src='./assets/images/dot.svg' alt="${name}" width="10px" height="10px">
@@ -174,8 +174,7 @@ export default class UI {
             <button class="delete-project-button" name="${name}">
                 <img src='./assets/images/cross.svg' alt="${name}" width="10px" height="10px">
             </button>
-        </div>
-        `
+        </div>`)
 
         UI.initProjectButtons()
     }
@@ -232,6 +231,6 @@ export default class UI {
     static closeProjectModal() {
         let modal = document.getElementById("projectModal")
         modal.style.display = "none";
-        document.querySelector("input[name$='title']").value = ""
+        document.querySelector("input[name$='proj-title']").value = ""
     }
 }
