@@ -67,19 +67,30 @@ export default class UI {
             dueDate = document.querySelector("input[name$='date']").value
             finished = ""
 
+            console.log(name)
+            if (name === "") {
+                alert("You have to enter a name for the task.");
+                return
+            }
+
             Storage.addTask(projectName, new Task(name, dueDate, false)) //New task
             UI.closeTaskModal() 
         }
 
         const taskList = document.getElementById("main-tasks");
         taskList.innerHTML += `
-        <button class="task">
-            <div class="task-left">
-                <input type="checkbox" alt="${name}" name="check-finish" ${finished}>
-                <p class="task-title">${name}</p>
-            </div>
-            <p class="date">${dueDate}</p>
-        </button>`
+        <div class="task-container">
+            <button class="task">
+                <div class="task-left">
+                    <input type="checkbox" alt="${name}" name="check-finish" ${finished}>
+                    <p class="task-title">${name}</p>
+                </div>
+                <p class="date">${dueDate}</p>
+            </button>
+            <button class="delete-task-button">
+                <img src='./assets/images/cross.svg' alt="${name}" width="10px" height="10px">
+            </button>
+        </div>`
 
         UI.initTaskButtons()
     }
