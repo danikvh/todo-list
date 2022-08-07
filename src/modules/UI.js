@@ -183,11 +183,7 @@ export default class UI {
     static openProject(name) {
         //Handle button selection        
         if (typeof name !== "string") {
-            if (name.target.childNodes.length <= 1){ //Pressed icon or text
-                name = name.target.parentElement.name
-            } else { //Pressed button
-                name = name.target.name
-            }
+            name = name.currentTarget.name
         }
 
         const projectTitle = document.getElementById("project-title")
@@ -201,15 +197,18 @@ export default class UI {
     }
 
     static deleteProject(event) {
-        const projectName = event.targetCurrent.name 
+        const projectName = event.currentTarget.name 
+        console.log(projectName)
 
-        Storage.deleteTask(projectName, taskName)
-        UI.openProject(projectName)
+        Storage.deleteProject(projectName)
     }
 
     static initProjectButtons() {
         const projectButtons = document.querySelectorAll("#project")
-        projectButtons.forEach((button) => button.addEventListener("click", UI.openProject))
+        const deleteButtons = document.querySelectorAll(".delete-project-button")
+
+        projectButtons.forEach((button) => button.addEventListener("click", UI.openProject))        
+        deleteButtons.forEach((button) => button.addEventListener("click", UI.deleteProject))
     }
 
     // POP UP METHODS

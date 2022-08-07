@@ -65,7 +65,7 @@ export default class Storage {
 
     static deleteProject(projectName) {
         const todoList = Storage.getTodoList()
-        todoList.getProject(projectName).deleteTask(taskName)
+        todoList.deleteProject(projectName)
         Storage.saveTodoList(todoList) 
     }
 }
