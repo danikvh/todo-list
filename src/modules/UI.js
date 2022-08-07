@@ -67,7 +67,6 @@ export default class UI {
             dueDate = document.querySelector("input[name$='date']").value
             finished = ""
 
-            console.log(name)
             if (name === "") {
                 alert("You have to enter a name for the task.");
                 return
@@ -87,7 +86,7 @@ export default class UI {
                 </div>
                 <p class="date">${dueDate}</p>
             </button>
-            <button class="delete-task-button">
+            <button class="delete-task-button" name="${name}">
                 <img src='./assets/images/cross.svg' alt="${name}" width="10px" height="10px">
             </button>
         </div>`
@@ -105,9 +104,18 @@ export default class UI {
         UI.openProject(projectName)
     }
 
+    static deleteTask(event) {
+        const projectName = document.getElementById("project-title").textContent 
+        const taskName = event.currentTarget.name;
+
+        Storage.deleteTask(projectName, taskName)
+        UI.openProject(projectName)
+    }
+
     static initTaskButtons() {
         const checkBoxes = document.getElementsByName("check-finish")
         const taskButtons = document.querySelectorAll(".task")
+        const deleteButtons = document.querySelectorAll(".delete-task-button")
 
         checkBoxes.forEach((checkBox) => checkBox.addEventListener("click", (event) => {
             const project = document.getElementById("project-title").textContent
@@ -131,6 +139,8 @@ export default class UI {
                 UI.initModifyTask(name, date)
             }
         }))
+
+        deleteButtons.forEach((button) => button.addEventListener("click", UI.deleteTask))
     }
 
     //CREATION OF PROJECTS

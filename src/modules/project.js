@@ -24,4 +24,9 @@ export default class Project {
         if (this.tasks.find((task) => task.getName() === newTask.getName())) return
         else this.tasks.push(newTask)
     }
+
+    deleteTask(taskName) {
+        const index = this.tasks.findIndex(i => i.title === taskName)
+        this.tasks.splice(index, 1)
+    }
 }
