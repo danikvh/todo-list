@@ -154,7 +154,11 @@ export default class UI {
 
     static addProject(name) {
         const nameInput = document.querySelector("input[name$='proj-title']").value
-        if (nameInput !== "") { // Values from popup
+        if (typeof(name) === "object") { // Values from popup
+            if (nameInput === "") {
+                alert("You have to enter a name for the project.");
+                return
+            }
             name = nameInput
             Storage.addProject(nameInput)
             UI.closeProjectModal() 
