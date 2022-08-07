@@ -166,12 +166,16 @@ export default class UI {
 
         const projectList = document.getElementById("sidebar-projects");
         projectList.innerHTML += `
-        <div class="sidebar-option" id="${name}-project">
+        <div class="sidebar-project" id="${name}-project">
             <button class="sidebar-button" id="project" name="${name}">
                 <img src='./assets/images/dot.svg' alt="${name}" width="10px" height="10px">
                 <p>${name}</p>
             </button>
-        </div>`
+            <button class="delete-project-button" name="${name}">
+                <img src='./assets/images/cross.svg' alt="${name}" width="10px" height="10px">
+            </button>
+        </div>
+        `
 
         UI.initProjectButtons()
     }
@@ -194,6 +198,13 @@ export default class UI {
         taskList.innerHTML = ""
         const tasks = Storage.getTodoList().getProject(name).getTasks()
         tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
+    }
+
+    static deleteProject(event) {
+        const projectName = event.targetCurrent.name 
+
+        Storage.deleteTask(projectName, taskName)
+        UI.openProject(projectName)
     }
 
     static initProjectButtons() {
