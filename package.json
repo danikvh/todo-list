@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "css-loader": "^6.7.1",
+    "date-fns": "^2.29.1",
     "save-dev": "^0.0.1-security",
     "style-loader": "^3.3.1"
   }
