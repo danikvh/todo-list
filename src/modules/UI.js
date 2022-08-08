@@ -7,7 +7,7 @@ export default class UI {
     static loadPage() {
         UI.loadProjects()
         UI.initButtons()
-        UI.openProject("Inbox")
+        UI.openGeneralProject()
     }
 
     //INITIALIZATION
@@ -188,7 +188,10 @@ export default class UI {
 
     static openGeneralProject(event) {
         //To open Inbox, Today or Week tasks
-        const projectName = event.currentTarget.name //Today or Week
+        let projectName = ""
+        if (event === undefined) projectName = "Inbox"
+        else projectName = event.currentTarget.name
+
         const projects = Storage.getTodoList().getProjects()
         let tasks = []
 
@@ -198,19 +201,26 @@ export default class UI {
                 project.getName() !== "Inbox") {
                 if (projectName === "Today") {
                     const todayTasks = project.getTodayTasks()
-                    todayTasks.forEach((task) => tasks.push(task))
+                    todayTasks.forEach(function(task) {
+                        task.setName(task.getName() + " (" + project.getName() + ")");
+                        tasks.push(task)
+                    })
                 } else if (projectName === "This week") {
                     const weekTasks = project.getWeekTasks()
-                    weekTasks.forEach((task) => tasks.push(task))
+                    weekTasks.forEach(function(task) {
+                        task.setName(task.getName() + " (" + project.getName() + ")");
+                        tasks.push(task)
+                    })
                 } else {
                     const allTasks = project.getTasks()
-                    allTasks.forEach((task) => tasks.push(task))
+                    allTasks.forEach(function(task) {
+                        task.setName(task.getName() + " (" + project.getName() + ")");
+                        tasks.push(task)
+                    })
                 }
             }
         })
         Storage.addTasks(`${projectName}`, tasks)
-
-        console.log(Storage.getTodoList().getProject(`${projectName}`))
         UI.openProject(`${projectName}`)
     }
 
