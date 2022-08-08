@@ -7,7 +7,7 @@ export default class UI {
     static loadPage() {
         UI.loadProjects()
         UI.initButtons()
-        UI.openGeneralProject()
+        UI.openGeneralProject("Inbox")
     }
 
     //INITIALIZATION
@@ -97,10 +97,22 @@ export default class UI {
 
     static deleteTask(event) {
         const projectName = document.getElementById("project-title").textContent 
-        const taskName = event.currentTarget.name;
+        let taskName = event.currentTarget.name;
 
-        Storage.deleteTask(projectName, taskName)
-        UI.openProject(projectName)
+        if (projectName === "Today" || projectName === "This week" ||
+          projectName === "Inbox") {
+            Storage.deleteTask(projectName, taskName)
+            
+            const mainProjectName = taskName.split("(")[1].split(")")[0];
+            taskName = taskName.split(" (")[0]
+            Storage.deleteTask(mainProjectName, taskName);
+            UI.openProject(mainProjectName)
+
+            UI.openGeneralProject(projectName)
+        } else {
+            Storage.deleteTask(projectName, taskName)
+            UI.openProject(projectName)
+        }
     }
 
     static initTaskButtons() {
@@ -189,8 +201,8 @@ export default class UI {
     static openGeneralProject(event) {
         //To open Inbox, Today or Week tasks
         let projectName = ""
-        if (event === undefined) projectName = "Inbox"
-        else projectName = event.currentTarget.name
+        if (typeof(event) === "object") projectName = event.currentTarget.name
+        else projectName = event
 
         const projects = Storage.getTodoList().getProjects()
         let tasks = []
