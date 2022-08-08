@@ -101,13 +101,12 @@ export default class UI {
 
         if (projectName === "Today" || projectName === "This week" ||
           projectName === "Inbox") {
-            Storage.deleteTask(projectName, taskName)
-            
             const mainProjectName = taskName.split("(")[1].split(")")[0];
-            taskName = taskName.split(" (")[0]
-            Storage.deleteTask(mainProjectName, taskName);
+            const mainTaskName = taskName.split(" (")[0]
+            
+            Storage.deleteTask(projectName, taskName)
+            Storage.deleteTask(mainProjectName, mainTaskName);
             UI.openProject(mainProjectName)
-
             UI.openGeneralProject(projectName)
         } else {
             Storage.deleteTask(projectName, taskName)
