@@ -24,8 +24,8 @@ export default class UI {
         taskButton.addEventListener("click", UI.createTask);
         projectButton.addEventListener("click", UI.createProject)
         inboxProjectButton.addEventListener("click", UI.openProject)
-        todayProjectButton.addEventListener("click", UI.openTodayProject)
-        weekProjectButton.addEventListener("click", UI.openWeekProject)
+        todayProjectButton.addEventListener("click", UI.openTodayOrWeekProject)
+        weekProjectButton.addEventListener("click", UI.openTodayOrWeekProject)
         cancelTaskPopupButton.addEventListener("click", UI.closeTaskModal)
         cancelProjectPopupButton.addEventListener("click", UI.closeProjectModal)
     }
@@ -186,28 +186,28 @@ export default class UI {
         tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
     }
 
-    static openTodayProject() {
+    static openTodayOrWeekProject(event) {
+        const timeFrame = event.currentTarget.name //Today or Week
         const projects = Storage.getTodoList().getProjects()
         let tasks = []
 
         projects.forEach((project) => {
             if (project.getName() !== "Today" &&
-                project.getName() !== "This week") 
-            {
-              const todayTasks = project.getTodayTasks();
-              todayTasks.forEach((task) => tasks.push(task));
+                project.getName() !== "This week") {
+                if (timeFrame === "Today") {
+                    const todayTasks = project.getTodayTasks()
+                    todayTasks.forEach((task) => tasks.push(task))
+                } else {
+                    const weekTasks = project.getWeekTasks()
+                    weekTasks.forEach((task) => tasks.push(task))
+                }
             }
         })
-        Storage.addTasks("Today", tasks)
+        Storage.addTasks(`${timeFrame}`, tasks)
 
-        console.log(Storage.getTodoList().getProject("Today"))
-        UI.openProject("Today")
+        console.log(Storage.getTodoList().getProject(`${timeFrame}`))
+        UI.openProject(`${timeFrame}`)
     }
-
-    static openWeekProject() {
-
-    }
-
 
     static deleteProject(event) {
         const projectName = event.currentTarget.name 
