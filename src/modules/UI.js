@@ -42,11 +42,18 @@ export default class UI {
     }
 
     static initModifyTask(name, date) {
-        UI.showTaskForm()
-        document.querySelector("input[name$='date']").value = date
-        document.querySelector("input[name$='title']").value = name
-
         const submitButton = document.getElementById("submit-task")
+        UI.showTaskForm()
+        
+        const project = document.getElementById("project-title").textContent 
+        if (project === "Inbox" || project === "Today" || project === "This week") {
+            submitButton.mainProject = name.split("(")[1].split(")")[0];
+            name = name.split(" (")[0]
+        }
+
+        document.querySelector("input[name$='title']").value = name
+        document.querySelector("input[name$='date']").value = date
+
         submitButton.previousName = name
         submitButton.addEventListener("click", UI.modifyTask)
     }
@@ -90,9 +97,19 @@ export default class UI {
         const name = document.querySelector("input[name$='title']").value
         const dueDate = document.querySelector("input[name$='date']").value
         
-        Storage.updateInfoTask(projectName, event.target.previousName, name, dueDate)
-        UI.closeTaskModal()
-        UI.openProject(projectName)
+        if (projectName === "Today" || projectName === "This week" ||
+          projectName === "Inbox") {
+            const mainProjectName = event.target.mainProject;
+
+            Storage.updateInfoTask(mainProjectName, event.target.previousName, name, dueDate)
+            UI.closeTaskModal()
+            UI.openProject(mainProjectName)
+            UI.openGeneralProject(projectName)
+        } else {
+            Storage.updateInfoTask(projectName, event.target.previousName, name, dueDate)
+            UI.closeTaskModal()
+            UI.openProject(projectName)
+        }
     }
 
     static deleteTask(event) {
