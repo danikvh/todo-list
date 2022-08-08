@@ -24,8 +24,8 @@ export default class UI {
         taskButton.addEventListener("click", UI.createTask);
         projectButton.addEventListener("click", UI.createProject)
         inboxProjectButton.addEventListener("click", UI.openProject)
-        todayProjectButton.addEventListener("click", UI.openProject)
-        weekProjectButton.addEventListener("click", UI.openProject)
+        todayProjectButton.addEventListener("click", UI.openTodayProject)
+        weekProjectButton.addEventListener("click", UI.openWeekProject)
         cancelTaskPopupButton.addEventListener("click", UI.closeTaskModal)
         cancelProjectPopupButton.addEventListener("click", UI.closeProjectModal)
     }
@@ -185,6 +185,29 @@ export default class UI {
         const tasks = Storage.getTodoList().getProject(name).getTasks()
         tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
     }
+
+    static openTodayProject() {
+        const projects = Storage.getTodoList().getProjects()
+        let tasks = []
+
+        projects.forEach((project) => {
+            if (project.getName() !== "Today" &&
+                project.getName() !== "This week") 
+            {
+              const todayTasks = project.getTodayTasks();
+              todayTasks.forEach((task) => tasks.push(task));
+            }
+        })
+        Storage.addTasks("Today", tasks)
+
+        console.log(Storage.getTodoList().getProject("Today"))
+        UI.openProject("Today")
+    }
+
+    static openWeekProject() {
+
+    }
+
 
     static deleteProject(event) {
         const projectName = event.currentTarget.name 
