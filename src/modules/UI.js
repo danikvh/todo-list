@@ -23,9 +23,9 @@ export default class UI {
 
         taskButton.addEventListener("click", UI.createTask);
         projectButton.addEventListener("click", UI.createProject)
-        inboxProjectButton.addEventListener("click", UI.openProject)
-        todayProjectButton.addEventListener("click", UI.openTodayOrWeekProject)
-        weekProjectButton.addEventListener("click", UI.openTodayOrWeekProject)
+        inboxProjectButton.addEventListener("click", UI.openGeneralProject)
+        todayProjectButton.addEventListener("click", UI.openGeneralProject)
+        weekProjectButton.addEventListener("click", UI.openGeneralProject)
         cancelTaskPopupButton.addEventListener("click", UI.closeTaskModal)
         cancelProjectPopupButton.addEventListener("click", UI.closeProjectModal)
     }
@@ -186,27 +186,32 @@ export default class UI {
         tasks.forEach((task) => UI.addTask(task.getName(), task.getDate(), task.getFinished()))
     }
 
-    static openTodayOrWeekProject(event) {
-        const timeFrame = event.currentTarget.name //Today or Week
+    static openGeneralProject(event) {
+        //To open Inbox, Today or Week tasks
+        const projectName = event.currentTarget.name //Today or Week
         const projects = Storage.getTodoList().getProjects()
         let tasks = []
 
         projects.forEach((project) => {
             if (project.getName() !== "Today" &&
-                project.getName() !== "This week") {
-                if (timeFrame === "Today") {
+                project.getName() !== "This week" &&
+                project.getName() !== "Inbox") {
+                if (projectName === "Today") {
                     const todayTasks = project.getTodayTasks()
                     todayTasks.forEach((task) => tasks.push(task))
-                } else {
+                } else if (projectName === "This week") {
                     const weekTasks = project.getWeekTasks()
                     weekTasks.forEach((task) => tasks.push(task))
+                } else {
+                    const allTasks = project.getTasks()
+                    allTasks.forEach((task) => tasks.push(task))
                 }
             }
         })
-        Storage.addTasks(`${timeFrame}`, tasks)
+        Storage.addTasks(`${projectName}`, tasks)
 
-        console.log(Storage.getTodoList().getProject(`${timeFrame}`))
-        UI.openProject(`${timeFrame}`)
+        console.log(Storage.getTodoList().getProject(`${projectName}`))
+        UI.openProject(`${projectName}`)
     }
 
     static deleteProject(event) {
