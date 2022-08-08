@@ -6,12 +6,12 @@ import TodoList from "./todo-list"
 // Storage for our todo list
 export default class Storage {
     static saveTodoList(data) {
-        sessionStorage.setItem("todolist", JSON.stringify(data))
+        localStorage.setItem("todolist", JSON.stringify(data))
     }
 
     static getTodoList() {
         const todoList = Object.assign(new TodoList(), 
-            JSON.parse(sessionStorage.getItem("todolist")))
+            JSON.parse(localStorage.getItem("todolist")))
 
         todoList.setProjects(todoList.getProjects().map((project) => 
             Object.assign(new Project(), project)))
