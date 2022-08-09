@@ -281,6 +281,7 @@ export default class UI {
 
         Storage.deleteProject(projectName)
         UI.loadProjects()
+        UI.openGeneralProject("Inbox")
     }
 
     static loadProjects() {
