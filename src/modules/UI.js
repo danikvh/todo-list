@@ -93,6 +93,7 @@ export default class UI {
             if (previousProject === "Inbox" || previousProject === "Today" ||
             previousProject === "This week") {
                 UI.openGeneralProject(previousProject)
+                UI.deleteTaskFormProjects()
                 return
             }
         }
@@ -315,6 +316,12 @@ export default class UI {
         let modal = document.getElementById("taskModal")
         modal.style.display = "none";
         document.querySelector("input[name$='title']").value = ""
+
+        const projectTitle = document.getElementById("project-title").textContent
+        if (projectTitle === "Inbox" || projectTitle === "Today" ||
+              projectTitle === "This week") {
+                UI.deleteTaskFormProjects()
+            }
     }
 
     static showProjectForm() {
@@ -336,6 +343,7 @@ export default class UI {
 
         label.for = "project"
         label.textContent = "Project"
+        label.id = "form-projects-label"
         taskForm.insertBefore(label, formButtons)
 
         const projects = Storage.getTodoList().getProjects()
@@ -349,7 +357,17 @@ export default class UI {
             }
         })
 
-        select.id="form-projects"
+        select.id = "form-projects"
         taskForm.insertBefore(select, formButtons)
+    }
+
+    static deleteTaskFormProjects() {
+        const taskForm = document.getElementById("task-form")
+        const formButtons = document.getElementById("task-form-buttons")
+        const label = document.getElementById("form-projects-label")
+        const select = document.getElementById("form-projects")
+
+        taskForm.removeChild(label)
+        taskForm.removeChild(select)   
     }
 }
