@@ -66,14 +66,20 @@ export default class UI {
 
     static addTask(name, dueDate, finished) {
         if (dueDate === undefined) { // Values from popup
-            const projectName = document.getElementById("project-title").textContent 
+            let projectName = document.getElementById("project-title").textContent 
+            const previousProject = projectName
             name = document.querySelector("input[name$='title']").value
             dueDate = document.querySelector("input[name$='date']").value
             finished = ""
 
             if (projectName === "Inbox" || projectName === "Today" ||
               projectName === "This week") {
-
+                const select = document.getElementById("form-projects")
+                if (select.options.selectedIndex === -1) {
+                    alert("You have to create a project first")
+                    return
+                }
+                projectName = select.options[select.selectedIndex].value
             }
 
             if (name === "") {
@@ -82,7 +88,13 @@ export default class UI {
             }
 
             Storage.addTask(projectName, new Task(name, dueDate, false)) //New task
+            UI.openGeneralProject(previousProject)
             UI.closeTaskModal() 
+            
+            if (previousProject === "Inbox" || previousProject === "Today" ||
+            previousProject === "This week") {
+                return
+            }
         }
 
         const taskList = document.getElementById("main-tasks");
@@ -336,7 +348,7 @@ export default class UI {
             }
         })
 
-        select.name="form-projects"
+        select.id="form-projects"
         taskForm.insertBefore(select, formButtons)
     }
 }
