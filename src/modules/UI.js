@@ -88,11 +88,11 @@ export default class UI {
             }
 
             Storage.addTask(projectName, new Task(name, dueDate, false)) //New task
-            UI.openGeneralProject(previousProject)
             UI.closeTaskModal() 
             
             if (previousProject === "Inbox" || previousProject === "Today" ||
             previousProject === "This week") {
+                UI.openGeneralProject(previousProject)
                 return
             }
         }
