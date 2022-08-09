@@ -37,6 +37,12 @@ export default class UI {
         UI.showTaskForm()
         document.querySelector("input[name$='date']").value = (new Date().toISOString().substring(0,10))
     
+        const projectName = document.getElementById("project-title").textContent 
+        if (projectName === "Inbox" || projectName === "Today" ||
+              projectName === "This week") {
+            UI.addTaskFormProjects()
+        }
+
         const submitButton = document.getElementById("submit-task")
         submitButton.addEventListener("click", UI.addTask)
     }
@@ -64,6 +70,11 @@ export default class UI {
             name = document.querySelector("input[name$='title']").value
             dueDate = document.querySelector("input[name$='date']").value
             finished = ""
+
+            if (projectName === "Inbox" || projectName === "Today" ||
+              projectName === "This week") {
+
+            }
 
             if (name === "") {
                 alert("You have to enter a name for the task.");
@@ -302,5 +313,30 @@ export default class UI {
         let modal = document.getElementById("projectModal")
         modal.style.display = "none";
         document.querySelector("input[name$='proj-title']").value = ""
+    }
+
+    static addTaskFormProjects() {
+        const taskForm = document.getElementById("task-form")
+        const formButtons = document.getElementById("task-form-buttons")
+        const label = document.createElement("label")
+        const select = document.createElement("select")
+
+        label.for = "project"
+        label.textContent = "Project"
+        taskForm.insertBefore(label, formButtons)
+
+        const projects = Storage.getTodoList().getProjects()
+        projects.forEach(function(project) {
+            if (project.getName() !== "Inbox" && project.getName() !== "Today" &&
+              project.getName() !== "This week") {
+                const option = document.createElement("option")
+                option.value = `${project.getName()}`
+                option.textContent = `${project.getName()}`
+                select.appendChild(option)
+            }
+        })
+
+        select.name="form-projects"
+        taskForm.insertBefore(select, formButtons)
     }
 }
